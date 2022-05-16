@@ -1,9 +1,11 @@
 import { CodeHighlightNode, CodeNode } from '@lexical/code'
+import { HashtagNode } from '@lexical/hashtag'
 import { AutoLinkNode, LinkNode } from '@lexical/link'
 import { ListItemNode, ListNode } from '@lexical/list'
 import AutoFocusPlugin from '@lexical/react/LexicalAutoFocusPlugin'
 import LexicalComposer from '@lexical/react/LexicalComposer'
 import ContentEditable from '@lexical/react/LexicalContentEditable'
+import HashtagPlugin from '@lexical/react/LexicalHashtagPlugin'
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
 import LinkPlugin from '@lexical/react/LexicalLinkPlugin'
 import ListPlugin from '@lexical/react/LexicalListPlugin'
@@ -12,16 +14,10 @@ import RichTextPlugin from '@lexical/react/LexicalRichTextPlugin'
 import { HeadingNode, QuoteNode } from '@lexical/rich-text'
 import { TableCellNode, TableNode, TableRowNode } from '@lexical/table'
 
+import { $createMentionNode, MentionNode } from '../nodes/MentionNode'
+import MentionsPlugin from '../plugins/MentionsPlugin'
 import ToolbarPlugin from '../plugins/ToolbarPlugin'
-import ExampleTheme from '../themes/ExampleTheme'
-
-const theme = {
-  ltr: 'ltr',
-  paragraph: 'editor-paragraph',
-  placeholder: 'editor-placeholder',
-  rtl: 'rtl',
-}
-
+import PlaygroundEditorTheme from '../themes/PlaygroundEditorTheme'
 // Catch any errors that occur during Lexical updates and log them
 // or throw them as needed. If you don't throw them, Lexical will
 // try to recover gracefully without losing user data.
@@ -43,6 +39,8 @@ const editorConfig = {
     TableRowNode,
     AutoLinkNode,
     LinkNode,
+    HashtagNode,
+    MentionNode,
   ],
 
   // Handling of errors during update
@@ -51,7 +49,7 @@ const editorConfig = {
   },
 
   // The editor theme
-  theme: ExampleTheme,
+  theme: PlaygroundEditorTheme,
 }
 
 const Page = () => {
@@ -70,8 +68,10 @@ const Page = () => {
               </div>
             }
           />
+          <MentionsPlugin />
           <HistoryPlugin />
           <AutoFocusPlugin />
+          <HashtagPlugin />
           <ListPlugin />
           <LinkPlugin />
           <LexicalMarkdownShortcutPlugin />
